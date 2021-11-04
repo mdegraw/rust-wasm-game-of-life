@@ -1,16 +1,18 @@
-import App from './App.svelte'
-import init from 'vite-wasm-functions'
+import App from './App.svelte';
+import init from '../../rust/rust-wasm-game-of-life/pkg/rust_wasm_game_of_life';
 
 const load = async () => {
-  const startTime = performance.now()
-  await init()
-  const endTime = performance.now()
-  console.log(`Call to wasm init took ${endTime - startTime} milliseconds`)
-
+  const startTime = performance.now();
+  const { memory } = await init();
+  const endTime = performance.now();
+  console.log(`Call to wasm init took ${endTime - startTime} milliseconds`);
 
   const app = new App({
-    target: document.getElementById('app')
-  })
+    target: document.body,
+    props: {
+      memory
+    }
+  });
 }
 
-load()
+load();

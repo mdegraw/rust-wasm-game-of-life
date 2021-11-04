@@ -4,6 +4,7 @@
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "baseUrl": ".",
     /**
@@ -13,7 +14,8 @@
      * of JS in `.svelte` files.
      */
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "strict": true
   },
   "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
 }

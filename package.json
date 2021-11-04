@@ -1,18 +1,18 @@
 {
   "name": "wasm-monorepo",
   "version": "1.0.0",
-  "author": "Daniel Segovia <segoarce90@gmail.com>",
+  "author": "Michael DeGraw  <michael.degraw@protonmail.com>",
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "packages/rust/pkg",
+    "packages/rust/rust-wasm-game-of-life/pkg",
     "packages/web"
   ],
   "scripts": {
     "web:dev": "yarn workspace web dev",
     "web:build": "yarn workspace web build",
     "rust:dev": "cd packages/rust && cargo watch -i .gitignore -i \"pkg/*\" -s \"wasm-pack build --target web\"",
-    "rust:build": "cd packages/rust && wasm-pack build --target web",
+    "rust:build": "cd packages/rust/rust-wasm-game-of-life && wasm-pack build --target web",
     "dev": "concurrently --kill-others-on-fail \"yarn web:dev\"  \"yarn rust:dev\"",
     "build": "yarn rust:build && yarn web:build",
     "ci:build": "yarn rust:build && yarn && yarn web:build"
