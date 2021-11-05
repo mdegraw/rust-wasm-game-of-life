@@ -16,6 +16,7 @@
     "web:lint:fix": "yarn workspace web lint:fix",
     "rust:dev": "cd packages/rust && cargo watch -i .gitignore -i \"pkg/*\" -s \"wasm-pack build --target web\"",
     "rust:build": "cd packages/rust/rust-wasm-game-of-life && wasm-pack build --target web",
+    "rust:format": "cd packages/rust/rust-wasm-game-of-life && cargo fmt && cd ../../..",
     "dev": "concurrently --kill-others-on-fail \"yarn web:dev\"  \"yarn rust:dev\"",
     "build": "yarn rust:build && yarn web:build",
     "ci:build": "yarn rust:build && yarn && yarn web:build",
@@ -29,6 +30,9 @@
     "*.{js,ts,svelte}": [
       "svelte-check",
       "yarn run web:lint:fix"
+    ],
+    "*.rs": [
+      "yarn run rust:format"
     ]
   }
 }
