@@ -1,7 +1,9 @@
 <script lang='ts'>
   import './styles/main.css';
   import GameOfLife from './lib/GameOfLife.svelte';
+  
   export let memory: WebAssembly.Memory;
+ 
 </script>
 
 <main>

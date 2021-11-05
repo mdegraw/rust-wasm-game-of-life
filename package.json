@@ -11,13 +11,24 @@
   "scripts": {
     "web:dev": "yarn workspace web dev",
     "web:build": "yarn workspace web build",
+    "web:check": "yarn workspace web svelte-check",
+    "web:lint": "yarn workspace web lint",
+    "web:lint:fix": "yarn workspace web lint:fix",
     "rust:dev": "cd packages/rust && cargo watch -i .gitignore -i \"pkg/*\" -s \"wasm-pack build --target web\"",
     "rust:build": "cd packages/rust/rust-wasm-game-of-life && wasm-pack build --target web",
     "dev": "concurrently --kill-others-on-fail \"yarn web:dev\"  \"yarn rust:dev\"",
     "build": "yarn rust:build && yarn web:build",
-    "ci:build": "yarn rust:build && yarn && yarn web:build"
+    "ci:build": "yarn rust:build && yarn && yarn web:build",
+    "prepare": "husky install"
   },
-  "dependencies": {
-    "concurrently": "^6.3.0"
+  "devDependencies": {
+    "husky": "^7.0.0",
+    "lint-staged": "^11.2.6"
+  },
+  "lint-staged": {
+    "*.{js,ts,svelte}": [
+      "svelte-check",
+      "yarn run web:lint:fix"
+    ]
   }
 }
