@@ -1,1 +1,19 @@
 /* src/main.css */
+
+body {
+    background-color: "bg-green-400";
+}
+
+.container {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+}
+
+.game-of-life-canvas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}

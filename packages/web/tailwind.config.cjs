@@ -1,4 +1,5 @@
 const production = !process.env.ROLLUP_WATCH;
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   future: {
@@ -17,11 +18,5 @@ module.exports = {
   purge: {
     enabled: production, // disable purge in dev
     purge: ['./index.html', './src/**/*.{svelte,js,ts}'],
-    options: {
-      defaultExtractor: content => [
-        ...(content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || []),
-        ...(content.match(/(?<=class:)[^=>\/\s]*/g) || []),
-      ],
-    },
   },
 }
