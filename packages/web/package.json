@@ -4,21 +4,35 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build": "yarn run tailwind:build && vite build",
+    "tailwind:watch": "cross-env TAILWIND_MODE=watch cross-env NODE_ENV=development postcss src/styles/tailwind.css -o public/index.css -w",
+    "tailwind:build": "cross-env TAILWIND_MODE=build cross-env NODE_ENV=production postcss src/styles/tailwind.css -o public/index.css",
     "serve": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.11",
     "@tsconfig/svelte": "^2.0.1",
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^6.3.0",
+    "cross-env": "^7.0.3",
+    "cssnano": "^5.0.9",
+    "postcss": "^8.3.11",
+    "postcss-cli": "^9.0.2",
+    "postcss-import": "^14.0.2",
+    "postcss-load-config": "^3.1.0",
+    "postcss-nesting": "^9.0.0",
+    "rollup-plugin-css-only": "^3.1.0",
     "svelte": "^3.37.0",
     "svelte-check": "^2.1.0",
-    "svelte-preprocess": "^4.7.2",
+    "svelte-preprocess": "^4.9.8",
+    "tailwindcss": "^2.2.19",
     "tslib": "^2.2.0",
     "typescript": "^4.3.2",
     "vite": "^2.6.13"
   },
   "dependencies": {
+    "concurrently": "^6.3.0",
     "rust-wasm-game-of-life": "^0.1.0"
   }
 }
