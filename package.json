@@ -29,7 +29,6 @@
   },
   "lint-staged": {
     "*.{js,ts,svelte}": [
-      "svelte-check",
       "yarn run web:lint:fix"
     ]
   }

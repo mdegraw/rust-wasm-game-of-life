@@ -1,11 +1,11 @@
 /* Injects Tailwind's base styles & any base styles registered by plugins. */
 @tailwind base;
 
-@layer base {
+/* @layer base {
     body {
         @apply bg-green-500;
     }
-}
+} */
 
 /* Injects Tailwind's component classes & any component classes registered by plugins. */
 @tailwind components;

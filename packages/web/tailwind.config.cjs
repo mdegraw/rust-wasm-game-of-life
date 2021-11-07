@@ -8,7 +8,11 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        'offset-black': '2px 2px black'
+      }
+    },
   },
   variants: {
     extend: {},
