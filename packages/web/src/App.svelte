@@ -1,6 +1,7 @@
 <script lang='ts'>
   import './styles/main.css';
   // import { isRandom } from './utils/random.store';
+  import { isPlaying } from './utils/play-pause.store';
 
   import GameOfLife from './lib/GameOfLife.svelte';
   
@@ -20,19 +21,15 @@
 </script>
 
 <main>
-  <div class="flex-container header-h1">
+  <div class="flex-container">
     <h1>Game of Life</h1>
   </div>
-  <div class="input-container">
-    <div class="mb-3 pt-0">
-      <input type="text" placeholder="Start" class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"/>
-    </div>
-    <div class="mb-3 pt-0">
-      <input type="text" placeholder="Placeholder" class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"/>
-    </div>
-  </div>
 
-  <GameOfLife memory={memory} isRandom={false} />
+  <button on:click={() => isPlaying.update(playing => !playing)}>
+    { $isPlaying ? "Pause" :  "Play"}
+  </button>
+
+  <GameOfLife memory={memory} isRandom={true} />
 </main>
 
 <style>
@@ -40,9 +37,5 @@
     height: 100%;
     width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  }
-
-  .input-container{
-    margin-top: 11px;
   }
 </style>

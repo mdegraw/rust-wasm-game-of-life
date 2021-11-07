@@ -1,7 +1,10 @@
 <script lang="ts">
+  import { Universe, Cell } from 'rust-wasm-game-of-life';
+  import { onDestroy } from 'svelte';
+  import { isPlaying } from '../utils/play-pause.store';
+
   export let memory: WebAssembly.Memory;
   export let isRandom: boolean;
-  import { Universe } from 'rust-wasm-game-of-life';
 
   const CELL_SIZE = 5; // px
   const GRID_COLOR = '#CCCCCC';
@@ -21,16 +24,9 @@
   canvas.width = (CELL_SIZE + 1) * width + 1;
 
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-
-  const renderLoop = () => {
-    universe.tick();
-
-    drawGrid();
-    drawCells();
-
-    requestAnimationFrame(renderLoop);
-  };
-
+  
+  let animationId: number | null = null;
+    
   const drawGrid = () => {
     ctx.beginPath();
     ctx.strokeStyle = GRID_COLOR;
@@ -52,24 +48,17 @@
 
   const getIndex = (row: number, column: number) => row * width + column;
 
-  const bitIsSet = (n: number, arr: Uint8Array) => {
-    const byte = Math.floor(n / 8);
-    const mask = 1 << (n % 8);
-    return (arr[byte] & mask) === mask;
-  };
-
   const drawCells = () => {
     const cellsPtr = universe.cells();
+    const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
 
-    const cells = new Uint8Array(memory.buffer, cellsPtr, width * height / 8);
-    
     ctx.beginPath();
 
     for (let row = 0; row < height; row++) {
       for (let col = 0; col < width; col++) {
         const idx = getIndex(row, col);
 
-        ctx.fillStyle = bitIsSet(idx, cells) ? ALIVE_COLOR : DEAD_COLOR;
+        ctx.fillStyle = cells[idx] === Cell.Dead ? DEAD_COLOR : ALIVE_COLOR;
 
         ctx.fillRect(
           col * (CELL_SIZE + 1) + 1,
@@ -83,5 +72,40 @@
     ctx.stroke();
   };
 
-  renderLoop();
+
+  const renderLoop = () => {
+    // debugger;
+    if ($isPlaying) {
+      drawGrid();
+      drawCells();
+
+      universe.tick();      
+      
+      animationId = requestAnimationFrame(renderLoop);
+    }
+  };
+
+  const play = () => {
+    renderLoop();
+  };
+
+  const pause = () => {
+    if (typeof animationId === 'number') {
+      cancelAnimationFrame(animationId );
+    }
+
+    animationId = null;
+  };
+
+  const unsubscribe = isPlaying.subscribe((val: boolean) => {
+    if (val) {
+      play();
+    } else {
+      pause();
+    }
+  });
+
+  play();
+
+  onDestroy(unsubscribe);
 </script>
