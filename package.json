@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "web:dev": "yarn workspace web dev",
+    "web:dev:watch": "yarn workspace web dev:watch",
     "web:prod": "yarn workspace web serve",
     "web:build": "yarn workspace web build",
     "web:check": "yarn workspace web svelte-check",

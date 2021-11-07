@@ -1,7 +1,9 @@
 mod utils;
 
-use wasm_bindgen::prelude::*;
+extern crate js_sys;
+
 use std::fmt;
+use wasm_bindgen::prelude::*;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -47,18 +49,29 @@ impl Universe {
 
         count
     }
-} 
+}
 
 /// Public methods, exported to JavaScript.
 #[wasm_bindgen]
 impl Universe {
-    pub fn new() -> Universe {
+    pub fn new(_is_random: Option<bool>) -> Universe {
         let width = 128;
         let height = 128;
 
-        let cells = (0..width*height)
+        let is_random = match _is_random {
+            Some(val) => val,
+            _ => false,
+        };
+
+        let cells = (0..width * height)
             .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 {
+                let conditional = if is_random {
+                    js_sys::Math::random() < 0.5
+                } else {
+                    i % 2 == 0 || i % 7 == 0
+                };
+
+                if conditional {
                     Cell::Alive
                 } else {
                     Cell::Dead
@@ -108,13 +121,13 @@ impl Universe {
                     // becomes a live cell, as if by reproduction.
                     (Cell::Dead, 3) => Cell::Alive,
                     // All other cells remain in the same state.
-                    (otherwise, _ ) => otherwise
+                    (otherwise, _) => otherwise,
                 };
 
                 next[idx] = next_cell;
             }
         }
-        
+
         self.cells = next;
     }
 
