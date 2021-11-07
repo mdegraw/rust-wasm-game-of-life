@@ -1,12 +1,20 @@
 <style lang="postcss" scoped>
   .gol-btn {
-    @apply w-5 flex text-sm items-center justify-center border border-black shadow-offset-black bg-yellow-200 mb-4;
+    @apply w-5 text-sm border border-black shadow-offset-black bg-yellow-200 mb-4;
     /* @apply font-bold; */
-    width: 65px;
+    width: auto;
   }
 
   .gol-btn:hover {
     @apply hover:bg-yellow-300;
+  }
+
+  .gol-btn-row {
+    @apply flex-row;
+  }
+
+  .gol-pause-play {
+    width: 65px;
   }
 </style>
 
@@ -15,9 +23,13 @@
   import { Universe, Cell } from 'rust-wasm-game-of-life';
 
   export let memory: WebAssembly.Memory;
+
+  let universe: Universe;
   let isRandom = true;
   let isPlaying = true;
   let setIsPlaying: () => void;
+  let onReset: () => void;
+  let onRandomize: () => void;
 
   onMount(() => {
     const CELL_SIZE = 5; // px
@@ -26,7 +38,7 @@
     const ALIVE_COLOR = '#000000';
 
     // Construct the universe, and get its width and height.
-    const universe = Universe.new(isRandom);
+    universe = Universe.new(isRandom);
     const width = universe.width();
     const height = universe.height();
 
@@ -89,10 +101,10 @@
     const renderLoop = () => {
       // debugger;
       if (isPlaying) {
+        universe.tick();
+
         drawGrid();
         drawCells();
-
-        universe.tick();
 
         animationId = requestAnimationFrame(renderLoop);
       }
@@ -103,12 +115,32 @@
     };
 
     const pause = () => {
+      isPlaying = false;
+
       if (typeof animationId === 'number') {
         cancelAnimationFrame(animationId);
       }
 
       animationId = null;
     };
+
+    canvas.addEventListener('click', event => {
+      const boundingRect = canvas.getBoundingClientRect();
+
+      const scaleX = canvas.width / boundingRect.width;
+      const scaleY = canvas.height / boundingRect.height;
+
+      const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
+      const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+
+      const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
+      const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
+
+      universe.toggle_cell(row, col);
+
+      drawGrid();
+      drawCells();
+    });
 
     setIsPlaying = () => {
       isPlaying = !isPlaying;
@@ -119,11 +151,36 @@
         pause();
       }
     };
+
+    onReset = () => {
+      universe = Universe.square_one();
+
+      drawGrid();
+      drawCells();
+
+      pause();
+    };
+
+    onRandomize = () => {
+      universe = Universe.new(true);
+
+      drawGrid();
+      drawCells();
+
+      if (!isPlaying) {
+        pause();
+      }
+    };
+
     play();
   });
 </script>
 
-<button class="gol-btn" on:click={setIsPlaying}>
-  {isPlaying ? 'Pause' : 'Play'}
-</button>
+<div class="gol-btn-row">
+  <button class="gol-btn gol-pause-play" on:click={setIsPlaying}>
+    {isPlaying ? 'Pause' : 'Play'}
+  </button>
+  <button class="gol-btn" on:click={onRandomize}>Randomize</button>
+  <button class="gol-btn" on:click={onReset}>Heat Death</button>
+</div>
 <canvas class="game-of-life-canvas" id="game-of-life-canvas" />

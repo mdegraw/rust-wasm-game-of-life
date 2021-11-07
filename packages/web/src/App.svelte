@@ -5,11 +5,11 @@
 </script>
 
 <main>
-  <h1>Game of Life</h1>
+  <h1>Conway's Game of Life</h1>
   <GameOfLife  memory={memory} />
 </main>
 
-<style lang="postcss">
+<style lang='postcss'>
   :root {
     height: 100%;
     width: 100%;

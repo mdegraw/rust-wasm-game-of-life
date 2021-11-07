@@ -19,6 +19,15 @@ pub enum Cell {
     Alive = 1,
 }
 
+impl Cell {
+    fn toggle(&mut self) {
+        *self = match *self {
+            Cell::Dead => Cell::Alive,
+            Cell::Alive => Cell::Dead,
+        };
+    }
+}
+
 #[wasm_bindgen]
 pub struct Universe {
     width: u32,
@@ -54,30 +63,42 @@ impl Universe {
 /// Public methods, exported to JavaScript.
 #[wasm_bindgen]
 impl Universe {
-    pub fn new(_is_random: Option<bool>) -> Universe {
+    pub fn new(is_random: Option<bool>) -> Universe {
         let width = 128;
         let height = 128;
 
-        let is_random = match _is_random {
+        let is_random = match is_random {
             Some(val) => val,
             _ => false,
         };
 
         let cells = (0..width * height)
             .map(|i| {
-                let conditional = if is_random {
+                let cell_val = if is_random {
                     js_sys::Math::random() < 0.5
                 } else {
                     i % 2 == 0 || i % 7 == 0
                 };
 
-                if conditional {
+                if cell_val {
                     Cell::Alive
                 } else {
                     Cell::Dead
                 }
             })
             .collect();
+
+        Universe {
+            width,
+            height,
+            cells,
+        }
+    }
+
+    pub fn square_one() -> Universe {
+        let width = 128;
+        let height = 128;
+        let cells: Vec<Cell> = vec![Cell::Dead; (width * height) as usize];
 
         Universe {
             width,
@@ -133,6 +154,12 @@ impl Universe {
 
     pub fn render(&self) -> String {
         self.to_string()
+    }
+
+    pub fn toggle_cell(&mut self, row: u32, column: u32) {
+        let idx = self.get_index(row, column);
+
+        self.cells[idx].toggle();
     }
 }
 
