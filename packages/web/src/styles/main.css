@@ -4,7 +4,7 @@ body {
     @apply bg-green-400;
 }
 
-.container {
+.flex-container {
     display: flex;
     flex-direction: column; 
     justify-content: center;

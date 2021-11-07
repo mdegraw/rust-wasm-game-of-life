@@ -1,7 +1,9 @@
 mod utils;
 
 extern crate js_sys;
+extern crate fixedbitset;
 
+use fixedbitset::FixedBitSet;
 use std::fmt;
 use wasm_bindgen::prelude::*;
 
@@ -23,7 +25,7 @@ pub enum Cell {
 pub struct Universe {
     width: u32,
     height: u32,
-    cells: Vec<Cell>,
+    cells: FixedBitSet,
 }
 
 impl Universe {
@@ -57,27 +59,40 @@ impl Universe {
     pub fn new(_is_random: Option<bool>) -> Universe {
         let width = 128;
         let height = 128;
+        let size = (width * height) as usize;
+        let mut cells = FixedBitSet::with_capacity(size);
 
         let is_random = match _is_random {
             Some(val) => val,
             _ => false,
         };
 
-        let cells = (0..width * height)
-            .map(|i| {
-                let conditional = if is_random {
-                    js_sys::Math::random() < 0.5
-                } else {
-                    i % 2 == 0 || i % 7 == 0
-                };
+        for i in 0..size {
+            let cell_val = if is_random {
+                js_sys::Math::random() < 0.5
+            } else {
+                i % 2 == 0 || i % 7 == 0
+            };
 
-                if conditional {
-                    Cell::Alive
-                } else {
-                    Cell::Dead
-                }
-            })
-            .collect();
+
+            cells.set(i, cell_val);
+        }
+
+        // let cells = (0..width * height)
+        //     .map(|i| {
+        //         let conditional = if is_random {
+        //             js_sys::Math::random() < 0.5
+        //         } else {
+        //             i % 2 == 0 || i % 7 == 0
+        //         };
+
+        //         if conditional {
+        //             Cell::Alive
+        //         } else {
+        //             Cell::Dead
+        //         }
+        //     })
+        //     .collect();
 
         Universe {
             width,
@@ -94,8 +109,10 @@ impl Universe {
         self.height
     }
 
-    pub fn cells(&self) -> *const Cell {
-        self.cells.as_ptr()
+    // pub fn cells(&self) -> *const Cell {
+    pub fn cells(&self) -> *const u32 {
+            // self.cells.as_ptr()
+        self.cells.as_slice().as_ptr()
     }
 
     pub fn tick(&mut self) {
@@ -107,24 +124,41 @@ impl Universe {
                 let cell = self.cells[idx];
                 let live_neighbors = self.live_neighbor_count(row, col);
 
-                let next_cell = match (cell, live_neighbors) {
+        //         let next_cell = match (cell, live_neighbors) {
+        //             // Rule 1: Any live cell with fewer than two live neighbours
+        //             // dies, as if caused by underpopulation.
+        //             (Cell::Alive, x) if x < 2 => Cell::Dead,
+        //             // Rule 2: Any live cell with two or three live neighbours
+        //             // lives on to the next generation.
+        //             (Cell::Alive, 2) | (Cell::Alive, 3) => Cell::Alive,
+        //             // Rule 3: Any live cell with more than three live
+        //             // neighbours dies, as if by overpopulation.
+        //             (Cell::Alive, x) if x > 3 => Cell::Dead,
+        //             // Rule 4: Any dead cell with exactly three live neighbours
+        //             // becomes a live cell, as if by reproduction.
+        //             (Cell::Dead, 3) => Cell::Alive,
+        //             // All other cells remain in the same state.
+        //             (otherwise, _) => otherwise,
+        //         };
+
+        //         next[idx] = next_cell;
+
+                next.set(idx, match (cell, live_neighbors) {
                     // Rule 1: Any live cell with fewer than two live neighbours
                     // dies, as if caused by underpopulation.
-                    (Cell::Alive, x) if x < 2 => Cell::Dead,
+                    (true, x) if x < 2 => false,
                     // Rule 2: Any live cell with two or three live neighbours
                     // lives on to the next generation.
-                    (Cell::Alive, 2) | (Cell::Alive, 3) => Cell::Alive,
+                    (true, 2) | (true, 3) => true,
                     // Rule 3: Any live cell with more than three live
                     // neighbours dies, as if by overpopulation.
-                    (Cell::Alive, x) if x > 3 => Cell::Dead,
+                    (true, x) if x > 3 => false,
                     // Rule 4: Any dead cell with exactly three live neighbours
                     // becomes a live cell, as if by reproduction.
-                    (Cell::Dead, 3) => Cell::Alive,
+                    (false, 3) => true,
                     // All other cells remain in the same state.
                     (otherwise, _) => otherwise,
-                };
-
-                next[idx] = next_cell;
+                });
             }
         }
 
@@ -140,7 +174,8 @@ impl fmt::Display for Universe {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for line in self.cells.as_slice().chunks(self.width as usize) {
             for &cell in line {
-                let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
+                // let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
+                let symbol = if cell == 0 { '◻' } else { '◼' };
                 write!(f, "{}", symbol)?;
             }
             write!(f, "\n")?;

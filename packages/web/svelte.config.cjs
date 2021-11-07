@@ -6,7 +6,6 @@ module.exports = {
   // for more information about preprocessors
   preprocess: sveltePreprocess({
     sourceMap: !production,
-    typescript: true,
     postcss: {
       plugins: [
        require("tailwindcss"), 
