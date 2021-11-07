@@ -1,6 +1,6 @@
 # WASM Game of Life
 
-This is the tutorial from the (Rust and WebAssembly)[https://rustwasm.github.io/docs/book/] book. I'm using Svelte for the frontend.
+This is the tutorial from the [Rust and WebAssembly](https://rustwasm.github.io/docs/book/) book. I'm using Svelte for the frontend.
 
 ## Quick Start
 ### Unix
