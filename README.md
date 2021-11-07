@@ -1,5 +1,7 @@
 # WASM Game of Life
 
+Try it out [here](https://mdegraw.github.io/rust-wasm-game-of-life/)
+
 This is the tutorial from the [Rust and WebAssembly](https://rustwasm.github.io/docs/book/) book. I'm using Svelte for the frontend.
 
 ## Quick Start
