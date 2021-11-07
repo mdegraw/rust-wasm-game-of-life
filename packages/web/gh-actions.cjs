@@ -1,7 +1,7 @@
 var ghpages = require('gh-pages');
 
 ghpages.publish(
-    'public', // path to public directory
+    'dist', // path to public directory
     {
         branch: 'gh-pages',
         repo: 'https://github.com/mdegraw/rust-wasm-game-of-life.git',
