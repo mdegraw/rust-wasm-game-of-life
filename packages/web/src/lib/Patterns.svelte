@@ -21,7 +21,7 @@
   }
 
   .pattern-title {
-    @apply sticky top-0 z-30  bg-yellow-100 bg-opacity-100;
+    @apply sticky top-0 z-30 bg-yellow-100 bg-opacity-100;
   }
 </style>
 

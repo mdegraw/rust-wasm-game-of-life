@@ -5,7 +5,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3);
   }
 
   .modal {
@@ -18,7 +17,7 @@
     overflow: auto;
     transform: translate(-50%, -50%);
     padding: 0.5em;
-    @apply bg-yellow-100;
+    @apply bg-yellow-100 text-sm border border-black shadow-offset-black;
   }
 
   /* width */
