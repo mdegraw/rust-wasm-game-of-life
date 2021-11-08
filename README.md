@@ -58,7 +58,11 @@ cargo install cargo-watch
 ```
 yarn dev
 ```
-14. Enjoy! Got some feedback? Open an issue, or better yet, a PR. If you like this template, please star this repo.
+14. To start the production server, run
+```
+yarn run web:prod
+```
+15. Enjoy! Got some feedback? Open an issue, or better yet, a PR. If you like this template, please star this repo.
 
 ## What's next
 This needs to work with a regular CI (ie: vercel/netlify/github pages). Will create a guide for this if there is enough demand for it.
