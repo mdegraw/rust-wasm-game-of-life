@@ -24,7 +24,7 @@ v16.13.0
 ```
 6. This monorepo uses [yarn workspaces](https://yarnpkg.com/features/workspaces) under the hood. Install `yarn` by running
 ```bash
-npm i -g yarn
+npm i -g yarn cross-env vite tailwind
 ```
 7. Install [rustup + rust](https://www.rust-lang.org/tools/install)
 ```bash
