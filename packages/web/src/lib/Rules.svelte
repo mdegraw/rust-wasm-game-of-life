@@ -22,9 +22,8 @@
     Conway's Game of Life (<a
       href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"
       target="_blank">wikipedia</a
-    >) is a cellular automaton devised by the British mathematician John Horton Conway.
+    >) Rules:
   </h3>
-  <h3>Rules:</h3>
   <ul class="rule-list">
     <li>
       Any live cell with fewer than two live neighbours dies, as if by underpopulation.

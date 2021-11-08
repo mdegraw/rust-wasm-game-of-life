@@ -41,7 +41,9 @@
     if (e.key === 'Tab') {
       // trap focus
       const nodes: NodeListOf<HTMLElement> = modal.querySelectorAll('*');
-      const tabbable: HTMLElement[] = Array.from(nodes).filter((n: HTMLElement) => n.tabIndex >= 0);
+      const tabbable: HTMLElement[] = Array.from(nodes).filter(
+        (n: HTMLElement) => n.tabIndex >= 0
+      );
 
       let index = tabbable.indexOf(document.activeElement as HTMLElement);
       if (index === -1 && e.shiftKey) index = 0;

@@ -24,7 +24,9 @@
   import { ModalType } from '../utils/life.enums';
   import { ModalInfo } from '../utils/life.models';
   import Modal from './Modal.svelte';
+  import Patterns from './Patterns.svelte';
   import Rules from './Rules.svelte';
+  import Usage from './Usage.svelte';
   export let memory: WebAssembly.Memory;
 
   let universe: Universe;
@@ -198,10 +200,31 @@
     class="gol-btn"
     on:click={() => openModal({ show: true, type: ModalType.Rules })}>Rules</button
   >
+  <button
+    class="gol-btn"
+    on:click={() => openModal({ show: true, type: ModalType.Usage })}>Usage</button
+  >
+  <button
+    class="gol-btn"
+    on:click={() => openModal({ show: true, type: ModalType.Patterns })}>Patterns</button
+  >
 </div>
 <canvas class="game-of-life-canvas" id="game-of-life-canvas" />
 <Modal open={modalInfo.show && modalInfo.type === ModalType.Rules} on:close={closeModal}>
   <svelte:fragment slot="body">
     <Rules />
+  </svelte:fragment>
+</Modal>
+<Modal open={modalInfo.show && modalInfo.type === ModalType.Usage} on:close={closeModal}>
+  <svelte:fragment slot="body">
+    <Usage />
+  </svelte:fragment>
+</Modal>
+<Modal
+  open={modalInfo.show && modalInfo.type === ModalType.Patterns}
+  on:close={closeModal}
+>
+  <svelte:fragment slot="body">
+    <Patterns />
   </svelte:fragment>
 </Modal>
