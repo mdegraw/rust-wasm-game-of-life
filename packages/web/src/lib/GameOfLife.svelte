@@ -21,15 +21,27 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Universe, Cell } from 'rust-wasm-game-of-life';
-
+  import { ModalType } from '../utils/life.enums';
+  import { ModalInfo } from '../utils/life.models';
+  import Modal from './Modal.svelte';
+  import Rules from './Rules.svelte';
   export let memory: WebAssembly.Memory;
 
   let universe: Universe;
   let isRandom = true;
   let isPlaying = true;
+  let modalInfo: ModalInfo = { show: false };
   let setIsPlaying: () => void;
   let onReset: () => void;
   let onRandomize: () => void;
+
+  const openModal = ({ type }: ModalInfo) => {
+    modalInfo = { type, show: true };
+  };
+
+  const closeModal = () => {
+    modalInfo = { show: false };
+  };
 
   onMount(() => {
     const CELL_SIZE = 5; // px
@@ -182,5 +194,14 @@
   </button>
   <button class="gol-btn" on:click={onRandomize}>Randomize</button>
   <button class="gol-btn" on:click={onReset}>Heat Death</button>
+  <button
+    class="gol-btn"
+    on:click={() => openModal({ show: true, type: ModalType.Rules })}>Rules</button
+  >
 </div>
 <canvas class="game-of-life-canvas" id="game-of-life-canvas" />
+<Modal open={modalInfo.show && modalInfo.type === ModalType.Rules} on:close={closeModal}>
+  <svelte:fragment slot="body">
+    <Rules />
+  </svelte:fragment>
+</Modal>
