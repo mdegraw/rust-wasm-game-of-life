@@ -58,19 +58,15 @@ yarn run web:build
 ```bash
 cargo install cargo-watch
 ```
-14. To start the development server, run
-```
-yarn dev
-```
-15. To start the just the web development server, run
+14. To start the just the web development server, run
 ```
 yarn run web:dev
 ```
-16. To start the production server, run
+15. To start the production server, run
 ```
 yarn run web:prod
 ```
-17. Enjoy! Got some feedback? Open an issue, or better yet, a PR. If you like this template, please star this repo.
+16. Enjoy! Got some feedback? Open an issue, or better yet, a PR. If you like this template, please star this repo.
 
 ## What's next
 This needs to work with a regular CI (ie: vercel/netlify/github pages). Will create a guide for this if there is enough demand for it.
