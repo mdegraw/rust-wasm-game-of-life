@@ -14,11 +14,29 @@
     top: 50%;
     width: calc(100vw - 4em);
     max-width: 45em;
-    max-height: calc(100vh - 4em);
+    max-height: calc(50vh - 4em);
     overflow: auto;
     transform: translate(-50%, -50%);
     padding: 0.5em;
     @apply bg-yellow-100;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-green-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-green-600 border-2 border-solid border-white;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-green-900;
   }
 </style>
 

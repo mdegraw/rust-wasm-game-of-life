@@ -19,15 +19,21 @@
     @apply list-disc;
     margin-left: 25px;
   }
+
+  .pattern-title {
+    @apply sticky top-0 z-30  bg-yellow-100 bg-opacity-100;
+  }
 </style>
 
 <div>
-  <h3>
-    Interesting Patterns (<a
-      href="http://pi.math.cornell.edu/~lipa/mec/lesson6.html"
-      target="_blank">source</a
-    >)
-  </h3>
+  <header class="pattern-title">
+    <h3>
+      Interesting Patterns (<a
+        href="http://pi.math.cornell.edu/~lipa/mec/lesson6.html"
+        target="_blank">source</a
+      >)
+    </h3>
+  </header>
   <h3>Still Patterns:</h3>
   <ul class="pattern-list">
     <li>
