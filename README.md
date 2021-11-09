@@ -24,7 +24,7 @@ v16.13.0
 ```
 6. This monorepo uses [yarn workspaces](https://yarnpkg.com/features/workspaces) under the hood. Install `yarn` by running
 ```bash
-npm i -g yarn
+npm i -g yarn cross-env vite tailwind
 ```
 7. Install [rustup + rust](https://www.rust-lang.org/tools/install)
 ```bash
@@ -50,19 +50,27 @@ yarn rust:build
 ```bash
 yarn
 ```
-12. Install [cargo watch](https://crates.io/crates/cargo-watch)
+12. Build the Svelte app
+```bash
+yarn run web:build
+```
+13. Install [cargo watch](https://crates.io/crates/cargo-watch)
 ```bash
 cargo install cargo-watch
 ```
-13. To start the development server, run
+14. To start the development server, run
 ```
 yarn dev
 ```
-14. To start the production server, run
+15. To start the just the web development server, run
+```
+yarn run web:dev
+```
+16. To start the production server, run
 ```
 yarn run web:prod
 ```
-15. Enjoy! Got some feedback? Open an issue, or better yet, a PR. If you like this template, please star this repo.
+17. Enjoy! Got some feedback? Open an issue, or better yet, a PR. If you like this template, please star this repo.
 
 ## What's next
 This needs to work with a regular CI (ie: vercel/netlify/github pages). Will create a guide for this if there is enough demand for it.
