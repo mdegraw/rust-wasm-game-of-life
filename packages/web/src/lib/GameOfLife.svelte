@@ -36,6 +36,16 @@
   let setIsPlaying: () => void;
   let onReset: () => void;
   let onRandomize: () => void;
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+
+  const dimension = isMobile ? 64 : 128;
+
+  const size = {
+    width: dimension,
+    height: dimension
+  };
 
   const openModal = ({ type }: ModalInfo) => {
     modalInfo = { type, show: true };
@@ -52,7 +62,7 @@
     const ALIVE_COLOR = '#000000';
 
     // Construct the universe, and get its width and height.
-    universe = Universe.new(isRandom);
+    universe = Universe.new(size.width, size.height, isRandom);
     const width = universe.width();
     const height = universe.height();
 
@@ -167,7 +177,7 @@
     };
 
     onReset = () => {
-      universe = Universe.square_one();
+      universe = Universe.square_one(size.width, size.height);
 
       drawGrid();
       drawCells();
@@ -176,7 +186,7 @@
     };
 
     onRandomize = () => {
-      universe = Universe.new(true);
+      universe = Universe.new(size.width, size.height, true);
 
       drawGrid();
       drawCells();
