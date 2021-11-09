@@ -75,9 +75,6 @@ impl Universe {
 #[wasm_bindgen]
 impl Universe {
     pub fn new(width: u32, height: u32, is_random: Option<bool>) -> Universe {
-        // let width = 128;
-        // let height = 128;
-
         let is_random = match is_random {
             Some(val) => val,
             _ => false,
@@ -107,8 +104,6 @@ impl Universe {
     }
 
     pub fn square_one(width: u32, height: u32) -> Universe {
-        // let width = 128;
-        // let height = 128;
         let cells: Vec<Cell> = vec![Cell::Dead; (width * height) as usize];
 
         Universe {
